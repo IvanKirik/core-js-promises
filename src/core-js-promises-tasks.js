@@ -122,7 +122,7 @@ function getAllResult(promises) {
  * Static methods of the Promise class are not to be used, necessitating a manual chaining approach to ensure sequential processing.
  *
  * @param {Array<Promise<number>>} promises
- * @return {Promise<string>}
+ * @return {Promise<number>}
  *
  * @example:
  * const promise1 = Promise.resolve(10)
@@ -134,8 +134,14 @@ function getAllResult(promises) {
  * [promise1, promise4, promise3] => Promise.resolved('104030')
  * [promise1, promise4, promise3, promise2] => Promise.resolved('10403020')
  */
-function queuPromises(/* promises */) {
-  throw new Error('Not implemented');
+function queuPromises(promises) {
+  const resultPromise = Promise.resolve('');
+
+  return promises.reduce((chain, promise) => {
+    return chain.then((prevResult) => {
+      return promise.then((value) => prevResult + value);
+    });
+  }, resultPromise);
 }
 
 module.exports = {
